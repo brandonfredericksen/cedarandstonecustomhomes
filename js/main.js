@@ -282,34 +282,51 @@ function initContactForm() {
 
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Get form data
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-
-        // Here you would typically send the data to a server
-        // For now, we'll just show a success message
-        console.log('Form submitted:', data);
-
-        // Show success feedback
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
 
-        submitBtn.textContent = 'Message Sent!';
+        // Show sending state
+        submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
-        submitBtn.style.backgroundColor = '#7F5539';
 
-        // Reset form
-        form.reset();
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
 
-        // Reset button after delay
-        setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-            submitBtn.style.backgroundColor = '';
-        }, 3000);
+            if (response.ok) {
+                // Success
+                submitBtn.textContent = 'Message Sent!';
+                submitBtn.style.backgroundColor = '#7F5539';
+                form.reset();
+
+                // Reset button after delay
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.backgroundColor = '';
+                }, 3000);
+            } else {
+                throw new Error('Form submission failed');
+            }
+        } catch (error) {
+            // Error
+            submitBtn.textContent = 'Error - Try Again';
+            submitBtn.style.backgroundColor = '#9C6644';
+
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.backgroundColor = '';
+            }, 3000);
+        }
     });
 }
 
