@@ -457,9 +457,9 @@ p {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-md) var(--space-lg);
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
     border-radius: 4px;
     margin-bottom: var(--space-lg);
     opacity: 0;
@@ -467,18 +467,18 @@ p {
 }
 
 .hero__logo {
-    height: 70px;
+    height: 200px;
     width: auto;
     filter: brightness(0) invert(1);
 }
 
 @media (min-width: 768px) {
     .hero__logo {
-        height: 90px;
+        height: 260px;
     }
 
     .hero__logo-wrapper {
-        padding: var(--space-md) var(--space-xl);
+        padding: var(--space-md) var(--space-lg);
     }
 }
 
